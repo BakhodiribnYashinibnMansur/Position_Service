@@ -4,8 +4,12 @@
 package position_service
 
 import (
+	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
+	grpc "google.golang.org/grpc"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	math "math"
 )
 
@@ -38,4 +42,228 @@ var fileDescriptor_0d3d273c639a6f96 = []byte{
 	0x58, 0x89, 0xc1, 0x49, 0x3a, 0x4a, 0x12, 0x26, 0xae, 0x5f, 0x90, 0x5f, 0x9c, 0x59, 0x82, 0x14,
 	0x1f, 0x49, 0x6c, 0x60, 0x71, 0x63, 0x40, 0x00, 0x00, 0x00, 0xff, 0xff, 0x5b, 0x79, 0xf1, 0x2e,
 	0xac, 0x01, 0x00, 0x00,
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// ProfessionServiceClient is the client API for ProfessionService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
+type ProfessionServiceClient interface {
+	Create(ctx context.Context, in *CreateProfession, opts ...grpc.CallOption) (*ProfessionId, error)
+	Get(ctx context.Context, in *ProfessionId, opts ...grpc.CallOption) (*Profession, error)
+	GetAll(ctx context.Context, in *GetAllProfessionRequest, opts ...grpc.CallOption) (*GetAllProfessionResponse, error)
+	Update(ctx context.Context, in *Profession, opts ...grpc.CallOption) (*Profession, error)
+	Delete(ctx context.Context, in *ProfessionId, opts ...grpc.CallOption) (*DeleteRes, error)
+}
+
+type professionServiceClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewProfessionServiceClient(cc *grpc.ClientConn) ProfessionServiceClient {
+	return &professionServiceClient{cc}
+}
+
+func (c *professionServiceClient) Create(ctx context.Context, in *CreateProfession, opts ...grpc.CallOption) (*ProfessionId, error) {
+	out := new(ProfessionId)
+	err := c.cc.Invoke(ctx, "/genproto.ProfessionService/Create", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *professionServiceClient) Get(ctx context.Context, in *ProfessionId, opts ...grpc.CallOption) (*Profession, error) {
+	out := new(Profession)
+	err := c.cc.Invoke(ctx, "/genproto.ProfessionService/Get", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *professionServiceClient) GetAll(ctx context.Context, in *GetAllProfessionRequest, opts ...grpc.CallOption) (*GetAllProfessionResponse, error) {
+	out := new(GetAllProfessionResponse)
+	err := c.cc.Invoke(ctx, "/genproto.ProfessionService/GetAll", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *professionServiceClient) Update(ctx context.Context, in *Profession, opts ...grpc.CallOption) (*Profession, error) {
+	out := new(Profession)
+	err := c.cc.Invoke(ctx, "/genproto.ProfessionService/Update", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *professionServiceClient) Delete(ctx context.Context, in *ProfessionId, opts ...grpc.CallOption) (*DeleteRes, error) {
+	out := new(DeleteRes)
+	err := c.cc.Invoke(ctx, "/genproto.ProfessionService/Delete", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// ProfessionServiceServer is the server API for ProfessionService service.
+type ProfessionServiceServer interface {
+	Create(context.Context, *CreateProfession) (*ProfessionId, error)
+	Get(context.Context, *ProfessionId) (*Profession, error)
+	GetAll(context.Context, *GetAllProfessionRequest) (*GetAllProfessionResponse, error)
+	Update(context.Context, *Profession) (*Profession, error)
+	Delete(context.Context, *ProfessionId) (*DeleteRes, error)
+}
+
+// UnimplementedProfessionServiceServer can be embedded to have forward compatible implementations.
+type UnimplementedProfessionServiceServer struct {
+}
+
+func (*UnimplementedProfessionServiceServer) Create(ctx context.Context, req *CreateProfession) (*ProfessionId, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+}
+func (*UnimplementedProfessionServiceServer) Get(ctx context.Context, req *ProfessionId) (*Profession, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+}
+func (*UnimplementedProfessionServiceServer) GetAll(ctx context.Context, req *GetAllProfessionRequest) (*GetAllProfessionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAll not implemented")
+}
+func (*UnimplementedProfessionServiceServer) Update(ctx context.Context, req *Profession) (*Profession, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+}
+func (*UnimplementedProfessionServiceServer) Delete(ctx context.Context, req *ProfessionId) (*DeleteRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+}
+
+func RegisterProfessionServiceServer(s *grpc.Server, srv ProfessionServiceServer) {
+	s.RegisterService(&_ProfessionService_serviceDesc, srv)
+}
+
+func _ProfessionService_Create_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateProfession)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProfessionServiceServer).Create(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/genproto.ProfessionService/Create",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProfessionServiceServer).Create(ctx, req.(*CreateProfession))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProfessionService_Get_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProfessionId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProfessionServiceServer).Get(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/genproto.ProfessionService/Get",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProfessionServiceServer).Get(ctx, req.(*ProfessionId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProfessionService_GetAll_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllProfessionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProfessionServiceServer).GetAll(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/genproto.ProfessionService/GetAll",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProfessionServiceServer).GetAll(ctx, req.(*GetAllProfessionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProfessionService_Update_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Profession)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProfessionServiceServer).Update(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/genproto.ProfessionService/Update",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProfessionServiceServer).Update(ctx, req.(*Profession))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _ProfessionService_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ProfessionId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProfessionServiceServer).Delete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/genproto.ProfessionService/Delete",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProfessionServiceServer).Delete(ctx, req.(*ProfessionId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _ProfessionService_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "genproto.ProfessionService",
+	HandlerType: (*ProfessionServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "Create",
+			Handler:    _ProfessionService_Create_Handler,
+		},
+		{
+			MethodName: "Get",
+			Handler:    _ProfessionService_Get_Handler,
+		},
+		{
+			MethodName: "GetAll",
+			Handler:    _ProfessionService_GetAll_Handler,
+		},
+		{
+			MethodName: "Update",
+			Handler:    _ProfessionService_Update_Handler,
+		},
+		{
+			MethodName: "Delete",
+			Handler:    _ProfessionService_Delete_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "profession_service.proto",
 }

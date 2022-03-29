@@ -3,12 +3,12 @@ package service
 import (
 	"context"
 	"position_server/genproto/position_service"
+	"position_server/package/helper"
 	"position_server/package/logger"
 	"position_server/storage"
 
-	"position_server/package/helper"
-
 	"github.com/jmoiron/sqlx"
+
 	"google.golang.org/grpc/codes"
 )
 
@@ -40,7 +40,6 @@ func (s *professionService) Get(ctx context.Context, req *position_service.Profe
 	if err != nil {
 		return nil, helper.HandleError(s.logger, err, "error while getting profession ", req, codes.Internal)
 	}
-
 	return profession, nil
 }
 
@@ -56,8 +55,7 @@ func (s *professionService) GetAll(ctx context.Context, req *position_service.Ge
 func (s *professionService) Update(ctx context.Context, req *position_service.Profession) (*position_service.Profession, error) {
 	profession, err := s.storage.Profession().Update(req)
 	if err != nil {
-
-		return nil, helper.HandleError(s.logger, err, "error while getting profession ", req, codes.Internal)
+		return nil, helper.HandleError(s.logger, err, "error while update getting profession ", req, codes.Internal)
 	}
 	return profession, nil
 }
@@ -65,7 +63,7 @@ func (s *professionService) Update(ctx context.Context, req *position_service.Pr
 func (s *professionService) Delete(ctx context.Context, req *position_service.ProfessionId) (*position_service.DeleteRes, error) {
 	profession, err := s.storage.Profession().Delete(req.Id)
 	if err != nil {
-		return nil, helper.HandleError(s.logger, err, "error while getting profession ", req, codes.Internal)
+		return nil, helper.HandleError(s.logger, err, "error while delete getting profession ", req, codes.Internal)
 	}
 	return profession, nil
 }

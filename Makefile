@@ -13,6 +13,8 @@ APP=$(shell basename ${CURRENT_DIR})
 
 # Including
 # include .build_info
+go:
+	go run command/main.go
 
 run:
 	docker-compose -f docker-compose.yml up --force-recreate
